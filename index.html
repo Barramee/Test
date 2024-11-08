@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Picture Viewer and Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #easter-egg {
+            font-size: 12px;
+            color: #888;
+            display: none;
+        }
+        #image-container:hover #easter-egg {
+            display: block;
+        }
+        #uploaded-image {
+            max-width: 80%;
+            max-height: 400px;
+            margin: 20px;
+        }
+        #download-btn {
+            display: none;
+            margin-top: 10px;
+            padding: 8px 16px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Picture Viewer & Downloader</h1>
+    <input type="file" accept="image/*" id="image-input">
+    <div id="image-container">
+        <img id="uploaded-image" alt="Your uploaded image will appear here.">
+        <div id="easter-egg">I love surprises!</div>
+    </div>
+    <button id="download-btn">Download Image</button>
+
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const uploadedImage = document.getElementById('uploaded-image');
+        const downloadBtn = document.getElementById('download-btn');
+
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImage.src = e.target.result;
+                    downloadBtn.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        downloadBtn.addEventListener('click', function() {
+            const link = document.createElement('a');
+            link.href = uploadedImage.src;
+            link.download = 'downloaded_image.png';
+            link.click();
+        });
+    </script>
+</body>
+</html>
